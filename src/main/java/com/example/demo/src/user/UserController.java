@@ -44,7 +44,6 @@ public class UserController {
      * @return BaseResponse<GetUserRes>
      */
     //Query String
-    @ResponseBody
     @GetMapping("") // (GET) 127.0.0.1:9000/users
     public BaseResponse<GetUserRes> getUsers(@RequestParam(required = true) String Email) {
         try{
@@ -63,8 +62,12 @@ public class UserController {
         }
     }
 
-    @ResponseBody
-    @GetMapping("/{userIdx}") // (GET) 127.0.0.1:9000/users/:userIdx
+    /**
+     * 7주차 강의 추가 내용
+     * @param userIdx
+     * @return
+     */
+    @GetMapping("/{userIdx}/x") // (GET) 127.0.0.1:9000/users/:userIdx
     public BaseResponse<GetUserRes> getUserByIdx(@PathVariable("userIdx")int userIdx) {
         try{
 
@@ -128,4 +131,21 @@ public class UserController {
         }
     }
 
+    /**
+     *  8주차
+     */
+    /**
+     * 유저 피드 조회
+     * @param userIdx
+     * @return
+     */
+    @GetMapping("/{userIdx}")
+    public BaseResponse<GetUserFeedRes> getUserFeed(@PathVariable("userIdx") int userIdx) {
+        try{
+            GetUserFeedRes getUserFeedRes = userProvider.retriveUserFeed(userIdx, userIdx);
+            return new BaseResponse<>(getUserFeedRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 }
